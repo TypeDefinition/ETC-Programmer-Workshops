@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HorrorPlayer : MonoBehaviour
+public class DotProduct_Horror_Player : MonoBehaviour
 {
     [SerializeField] private float angularVelocity = 60.0f;
 
