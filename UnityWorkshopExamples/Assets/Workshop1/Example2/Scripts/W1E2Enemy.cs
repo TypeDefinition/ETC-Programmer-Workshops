@@ -29,8 +29,7 @@ public class W1E2Enemy : MonoBehaviour
         float distanceToPlayer = directionToPlayer.magnitude;
 
         // If the player is beyond our detection range, it is not detected.
-        if (detectionRange < distanceToPlayer)
-        {
+        if (detectionRange < distanceToPlayer) {
             detectionRadiusObject.GetComponent<MeshRenderer>().material.color = undetectedColor;
             return;
         }
@@ -44,4 +43,28 @@ public class W1E2Enemy : MonoBehaviour
         else
             detectionRadiusObject.GetComponent<MeshRenderer>().material.color = undetectedColor;
     }
+
+    private bool DetectPlayer() {
+        // Get the direction and square distance to the player.
+        Vector3 directionToPlayer = (player.transform.position - transform.position);
+        float sqrDistanceToPlayer = directionToPlayer.sqrMagnitude;
+
+        // If the player is beyond our detection range, it is not detected.
+        // Note: Think about why we choose to use the square distance instead of the distance.
+        if (detectionRange * detectionRange < sqrDistanceToPlayer)
+            return false;
+
+        // Where is the enemy facing?
+        Vector3 enemyForward = transform.forward;
+
+        // Get the angle to the player. Remember to convert it from radians to degrees.
+        float angleToPlayer = Mathf.Acos(Vector3.Dot(enemyForward, directionToPlayer.normalized)) * Mathf.Rad2Deg;
+        float fieldOfView = 90.0f;
+
+        // Remember to half the FOV, since the FOV is the whole arc from the left to the right.
+        return angleToPlayer < (fieldOfView * 0.5f);
+    }
+
+
+
 }
