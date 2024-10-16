@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DotProduct_Horror_Enemy : MonoBehaviour
+public class W1E1Enemy : MonoBehaviour
 {
     [SerializeField] private float maxVelocity = 3.0f;
     [SerializeField] private float acceleration = 5.0f;
