@@ -862,10 +862,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b2e380654b9762458b01752f1150027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineForward: {fileID: 1663843405}
-  lineRicochet1: {fileID: 1968721960}
-  lineRicochet2: {fileID: 212741234}
-  angularVelocity: 20
+  lines:
+  - {fileID: 1663843405}
+  - {fileID: 1968721960}
+  - {fileID: 212741234}
+  angularVelocity: 5
 --- !u!1 &811575514
 GameObject:
   m_ObjectHideFlags: 0
