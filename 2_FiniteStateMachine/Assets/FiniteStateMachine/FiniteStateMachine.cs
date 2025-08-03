@@ -3,19 +3,17 @@ using System.Collections.Generic;
 
 namespace FSM {
     // We want to make State a ScriptableObject so that we can drag an drop them in the editor.
+    // New states should inherit from this class.
     public abstract class State : ScriptableObject {
         [SerializeField] private string stateName = "Unnamed State";
 
         public string GetStateName() { return stateName; }
 
+        // Virtual functions that child states may choose to override.
         public virtual void OnAwake(FiniteStateMachine fsm, GameObject target) { }
-
         public virtual void OnEnter(FiniteStateMachine fsm, GameObject target) { }
-
         public virtual void OnUpdate(FiniteStateMachine fsm, GameObject target) { }
-
         public virtual void OnLateUpdate(FiniteStateMachine fsm, GameObject target) { }
-
         public virtual void OnExit(FiniteStateMachine fsm, GameObject target) { }
     }
 
@@ -45,6 +43,7 @@ namespace FSM {
                 runtimeStates.Add(state.GetStateName(), Instantiate(state));
             }
 
+            // Invoke the OnAwake function of every state.
             foreach (var state in runtimeStates.Values) {
                 state.OnAwake(this, gameObject);
             }
