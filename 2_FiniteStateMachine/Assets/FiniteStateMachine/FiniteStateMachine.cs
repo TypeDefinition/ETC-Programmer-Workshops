@@ -3,21 +3,17 @@ using System.Collections.Generic;
 
 namespace FSM {
     // We want to make State a ScriptableObject so that we can drag an drop them in the editor.
-    // Idle, Shoot & Reload should inherit from this class.
+    // New states should inherit from this class.
     public abstract class State : ScriptableObject {
-        // What is the name of this state? Idle? Shoot? Reload?
-        public abstract string GetName();
+        [SerializeField] private string stateName = "Unnamed State";
 
-        // What do we want to do in the first frame that we enter the state? i.e. Reload: Start reload animation.
+        public string GetStateName() { return stateName; }
+
+        // Virtual functions that child states may choose to override.
+        public virtual void OnAwake(FiniteStateMachine fsm, GameObject target) { }
         public virtual void OnEnter(FiniteStateMachine fsm, GameObject target) { }
-
-        // What do we want to do as the state is on-going? i.e. Shoot: Fire a bullet every half a second.
         public virtual void OnUpdate(FiniteStateMachine fsm, GameObject target) { }
-
-        // Similar to OnUpdate, but happens right after all OnUpdates are completed. (Often not used.)
         public virtual void OnLateUpdate(FiniteStateMachine fsm, GameObject target) { }
-
-        // What do we want to do in the last frame when we exit the state? i.e. Reload: Update UI to show new bullet count.
         public virtual void OnExit(FiniteStateMachine fsm, GameObject target) { }
     }
 
@@ -44,7 +40,12 @@ namespace FSM {
             nextState = initialState;
             for (int i = 0; i < states.Length; ++i) {
                 State state = Instantiate(states[i]);
-                runtimeStates.Add(state.GetName(), Instantiate(state));
+                runtimeStates.Add(state.GetStateName(), Instantiate(state));
+            }
+
+            // Invoke the OnAwake function of every state.
+            foreach (var state in runtimeStates.Values) {
+                state.OnAwake(this, gameObject);
             }
         }
 
@@ -60,6 +61,8 @@ namespace FSM {
                 currentState = nextState;
                 if (runtimeStates.ContainsKey(currentState)) {
                     runtimeStates[currentState].OnEnter(this, gameObject);
+                } else {
+                    Debug.LogWarning("FiniteStateMachine::Update - State " + currentState + " not found! Ensure that the state is correctly named in its ScriptableObject, and that it has been added to the FiniteStateMachine in the Unity Inspector.");
                 }
             }
 
