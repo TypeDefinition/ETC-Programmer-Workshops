@@ -8,7 +8,7 @@ public class Example1Gun : MonoBehaviour {
 
     [Header("Gun Settings")]
     [SerializeField, Min(1.0f)] private float fireRate = 5.0f;
-    [SerializeField, Min(1)] private int magazineSize = 10;
+    [SerializeField, Min(1)] private int magazineSize = 12;
 
     // Private Variables
     private float cooldown = 0.0f;

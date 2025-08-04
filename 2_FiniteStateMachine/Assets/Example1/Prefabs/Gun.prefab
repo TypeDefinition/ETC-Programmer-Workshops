@@ -138,7 +138,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5468693781779579791, guid: 15c32ef471e33584b950f521a58df224, type: 3}
   bulletSpawnPoint: {fileID: 5768262828838924493}
   fireRate: 5
-  magazineSize: 10
+  magazineSize: 12
   fireModes: []
 --- !u!114 &5663496647007465692
 MonoBehaviour:

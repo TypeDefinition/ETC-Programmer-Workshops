@@ -61,6 +61,8 @@ namespace FSM {
                 currentState = nextState;
                 if (runtimeStates.ContainsKey(currentState)) {
                     runtimeStates[currentState].OnEnter(this, gameObject);
+                } else {
+                    Debug.LogWarning("FiniteStateMachine::Update - State " + currentState + " not found! Ensure that the state is correctly named in its ScriptableObject, and that it has been added to the FiniteStateMachine in the Unity Inspector.");
                 }
             }
 
