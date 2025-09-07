@@ -444,17 +444,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &656502786
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,8 +631,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -31.999939}
-  m_SizeDelta: {x: 0, y: -64.00012}
+  m_AnchoredPosition: {x: 0, y: -32}
+  m_SizeDelta: {x: 0, y: -64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1044419248
 MonoBehaviour:
@@ -856,7 +862,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -864,6 +869,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1416065028
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,12 +919,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -981,32 +987,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae0044f54a86a0498de3f6da602529e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 1784523807}
-  fsm: {fileID: 1784523808}
+  gun: {fileID: 1854698540}
   bullets: {fileID: 279490213}
   currentState: {fileID: 1044419248}
---- !u!114 &1784523807 stripped
+--- !u!114 &1854698540 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8981413041886856144, guid: da40d555c6b5c5d488d9c3785c5f4b27, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3992564081373115692, guid: da40d555c6b5c5d488d9c3785c5f4b27, type: 3}
   m_PrefabInstance: {fileID: 2353313402661497085}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ec1d302ec9ddc45bd34a58d84966b9, type: 3}
+  m_Script: {fileID: 11500000, guid: d2bddb316998a764384bf0b0e2d3d1cc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1784523808 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5663496647007465692, guid: da40d555c6b5c5d488d9c3785c5f4b27, type: 3}
-  m_PrefabInstance: {fileID: 2353313402661497085}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a34e705c6ec38d741b1093fab587372a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
 --- !u!1001 &2353313402661497085
 PrefabInstance:
   m_ObjectHideFlags: 0
