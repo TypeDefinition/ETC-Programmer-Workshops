@@ -2,10 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Deliveryman : MonoBehaviour {
-    private List<Order> pendingDeliveries = new List<Order>();
-    private Order currentDelivery = null;
+    [Header("References")]
+    [SerializeField] private GameObject package = null;
+
+    [Header("Deliveryman Settings")]
     [SerializeField] private float movementSpeed = 5.0f;
     [SerializeField] private float interactionDistance = 2.0f;
+
+    // Private Variables
+    private List<Order> pendingDeliveries = new List<Order>();
+    private Order currentDelivery = null;
+    private Vector3 meanderDirection = Vector3.zero;
+    private float meanderTimer = 0.0f;
 
     private void OnEnable() {
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CreateDelivery), OnCreateDelivery);
@@ -37,6 +45,8 @@ public class Deliveryman : MonoBehaviour {
                         // Once we are close enough to the shop, pick up the order and inform the shop.
                         if (Vector3.Distance(currentDelivery.GetShop().transform.position, transform.position) < interactionDistance) {
                             GameEventSystem.GetInstance().TriggerEvent<Order>(nameof(GameEventName.PickUpDelivery), currentDelivery.PickUp());
+                            package.SetActive(true); // Just UI stuff.
+                            package.GetComponent<MeshRenderer>().material.color = Menu.ColorOf(currentDelivery.menuItem);
                         }
                     }
                     break;
@@ -49,12 +59,22 @@ public class Deliveryman : MonoBehaviour {
                         if (Vector3.Distance(currentDelivery.GetCustomer().transform.position, transform.position) < interactionDistance) {
                             GameEventSystem.GetInstance().TriggerEvent<Order>(nameof(GameEventName.CompleteDelivery), currentDelivery.CompleteDelivery());
                             currentDelivery = null;
+                            package.SetActive(false); // Just UI stuff.
                         }
                     }
                     break;
                 default:
                     throw new System.Exception(gameObject.name + " Unhandled order status!");
             }
+        }
+        // Otherwise, just meander in a random direction slowly.
+        else {
+            meanderTimer -= Time.deltaTime;
+            if (meanderTimer <= 0.0f) {
+                meanderTimer = 2.0f;
+                meanderDirection = new Vector3(Random.Range(-1.0f, 1.0f), 0.0f, Random.Range(-1.0f, 1.0f)).normalized;
+            }
+            transform.Translate(meanderDirection * Time.deltaTime, Space.World);
         }
     }
 

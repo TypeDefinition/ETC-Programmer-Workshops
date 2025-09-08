@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "FoodDeliveryInputActions",
+    "maps": [
+        {
+            "name": "FoodDelivery",
+            "id": "190cf7c2-d0fc-451f-bb93-78b5845a9b22",
+            "actions": [
+                {
+                    "name": "ToggleEventLogs",
+                    "type": "Button",
+                    "id": "3ca6bc4c-689d-4c5f-88f7-11af22e2b0b2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d7bfa436-8a85-4f72-925b-762d562c16ee",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleEventLogs",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

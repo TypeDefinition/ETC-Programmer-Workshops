@@ -15,13 +15,13 @@ public class Order {
 
     public readonly int id;
     private Status status;
-    public readonly MenuItem menuItem;
+    public readonly Menu.Item menuItem;
     
     private GameObject customer;
     private GameObject shop;
     private GameObject deliveryman;
 
-    public Order(MenuItem menuItem, GameObject customer) {
+    public Order(Menu.Item menuItem, GameObject customer) {
         id = ++orderCounter;
         status = Status.Created;
         this.menuItem = menuItem;

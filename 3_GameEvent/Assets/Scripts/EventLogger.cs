@@ -1,21 +1,24 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EventLogger : MonoBehaviour {
-    private TextMeshProUGUI textUI;
+    [Header("References")]
+    [SerializeField] private GameObject scrollView = null;
+    [SerializeField] private TextMeshProUGUI textGUI = null;
 
-    private string ToString(MenuItem menuItem) {
-        switch (menuItem) {
-            case MenuItem.Invalid: return "Invalid";
-            case MenuItem.Pizza: return "Pizza";
-            case MenuItem.Taco: return "Taco";
-            case MenuItem.Laksa: return "Laksa";
-            case MenuItem.Num: return "Num";
-            default: throw new System.Exception("Unhandled MenuItem");
-        }
+    FoodDeliveryInputActions inputActions;
+
+    private void Awake() {
+        inputActions = new FoodDeliveryInputActions();
     }
 
     private void OnEnable() {
+        // Input Actions
+        inputActions.Enable();
+        inputActions.FoodDelivery.ToggleEventLogs.performed += OnToggleEventLogs;
+
+        // Game Events
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CreateOrder), OnCreateOrder);
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.AcceptOrder), OnAcceptOrder);
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CreateDelivery), OnCreateDelivery);
@@ -25,6 +28,11 @@ public class EventLogger : MonoBehaviour {
     }
 
     private void OnDisable() {
+        // Input Actions
+        inputActions.Disable();
+        inputActions.FoodDelivery.ToggleEventLogs.performed -= OnToggleEventLogs;
+
+        // Game Events
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CreateOrder), OnCreateOrder);
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.AcceptOrder), OnAcceptOrder);
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CreateDelivery), OnCreateDelivery);
@@ -33,31 +41,31 @@ public class EventLogger : MonoBehaviour {
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CompleteDelivery), OnCompleteDelivery);
     }
 
-    private void Start() {
-        textUI = GetComponent<TextMeshProUGUI>();
+    // Input Actions
+    private void OnToggleEventLogs(InputAction.CallbackContext context) {
+        scrollView.SetActive(!scrollView.activeSelf);
     }
 
-    private void Update() {}
-
+    // Game Events
     private void OnCreateOrder(Order order) {
-        textUI.text += "[" + order.id + ", Create Order] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + "\n";
+        textGUI.text += "[" + order.id + ", Create Order] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + "\n";
     }
     private void OnAcceptOrder(Order order) {
-        textUI.text += "[" + order.id + ", Accept Order] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + "\n";
+        textGUI.text += "[" + order.id + ", Accept Order] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + "\n";
     }
     private void OnCreateDelivery(Order order) {
-        textUI.text += "[" + order.id + ", Create Delivery] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + "\n";
+        textGUI.text += "[" + order.id + ", Create Delivery] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + "\n";
     }
     
     private void OnAcceptDelivery(Order order) {
-        textUI.text += "[" + order.id + ", Accept Delivery] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
+        textGUI.text += "[" + order.id + ", Accept Delivery] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
     }
 
     private void OnPickUpDelivery(Order order) {
-        textUI.text += "[" + order.id + ", Pick Up Delivery] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
+        textGUI.text += "[" + order.id + ", Pick Up Delivery] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
     }
 
     private void OnCompleteDelivery(Order order) {
-        textUI.text += "[" + order.id + ", Complete Delivery] " + "Item: " + ToString(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
+        textGUI.text += "[" + order.id + ", Complete Delivery] " + "Item: " + Menu.StringOf(order.menuItem) + ", Customer: " + order.GetCustomer().name + ", Shop: " + order.GetShop().name + ", Deliveryman: " + order.GetDeliveryman().name + "\n";
     }
 }
