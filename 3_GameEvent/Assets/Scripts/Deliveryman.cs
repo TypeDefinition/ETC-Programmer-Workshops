@@ -27,11 +27,13 @@ public class Deliveryman : MonoBehaviour {
     private float meanderTimer = 0.0f;
 
     private void OnEnable() {
+        // Subscribe to events that we care about.
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CreateDelivery), OnCreateDelivery);
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.AcceptDelivery), OnAcceptDelivery);
     }
 
     private void OnDisable() {
+        // Unsubscribe from events.
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CreateDelivery), OnCreateDelivery);
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.AcceptDelivery), OnAcceptDelivery);
     }
@@ -65,6 +67,7 @@ public class Deliveryman : MonoBehaviour {
         if (0 < pendingDeliveries.Count) {
             // Accept a pending delivery.
             currentDelivery = pendingDeliveries[0].AcceptDelivery(gameObject);
+
             // Let every deliveryman know that we've already accepted this delivery so they can't accept it too.
             GameEventSystem.GetInstance().TriggerEvent<Order>(nameof(GameEventName.AcceptDelivery), currentDelivery);
             
@@ -77,6 +80,7 @@ public class Deliveryman : MonoBehaviour {
         // Move towards the shop to pick up our order.
         Vector3 direction = (currentDelivery.GetShop().transform.position - transform.position).normalized;
         transform.Translate(direction * movementSpeed * Time.deltaTime, Space.World);
+
         // Once we are close enough to the shop, pick up the order and inform the shop.
         if (Vector3.Distance(currentDelivery.GetShop().transform.position, transform.position) < interactionDistance) {
             GameEventSystem.GetInstance().TriggerEvent<Order>(nameof(GameEventName.PickUpDelivery), currentDelivery.PickUp());
@@ -94,6 +98,7 @@ public class Deliveryman : MonoBehaviour {
         // Move towards the customer.
         Vector3 direction = (currentDelivery.GetCustomer().transform.position - transform.position).normalized;
         transform.Translate(direction * movementSpeed * Time.deltaTime, Space.World);
+
         // Once we are close enough to the customer, complete the order and inform the customer.
         if (Vector3.Distance(currentDelivery.GetCustomer().transform.position, transform.position) < interactionDistance) {
             GameEventSystem.GetInstance().TriggerEvent<Order>(nameof(GameEventName.CompleteDelivery), currentDelivery.CompleteDelivery());

@@ -21,10 +21,12 @@ public class Customer : MonoBehaviour {
     private float cooldown = 0.0f;
 
     private void OnEnable() {
+        // Subscribe to events that we care about.
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CompleteDelivery), OnCompleteDelivery);
     }
 
     private void OnDisable() {
+        // Unsubscribe from events.
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CompleteDelivery), OnCompleteDelivery);
     }
 
@@ -63,6 +65,7 @@ public class Customer : MonoBehaviour {
     }
 
     private void OnUpdateCooldown() {
+        // After some time, we get hungry again.
         cooldown = Mathf.Max(0.0f, cooldown - Time.deltaTime);
         if (cooldown == 0.0f) {
             fsm.ChangeState((int)State.Order);
@@ -71,6 +74,7 @@ public class Customer : MonoBehaviour {
 
     // Event Callbacks
     private void OnCompleteDelivery(Order order) {
+        // Once we receive our food, it'll be a while before we're hungry again.
         if (currentOrder != null && currentOrder.id == order.id) {
             currentOrder = null;
             fsm.ChangeState((int)State.Cooldown);

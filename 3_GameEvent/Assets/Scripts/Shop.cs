@@ -27,11 +27,13 @@ public class Shop : MonoBehaviour {
     private float orderTimer = 0.0f;
 
     private void OnEnable() {
+        // Subscribe to events that we care about.
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.CreateOrder), OnCreateOrder);
         GameEventSystem.GetInstance().SubscribeToEvent<Order>(nameof(GameEventName.AcceptOrder), OnAcceptOrder);
     }
 
     private void OnDisable() {
+        // Unsubscribe from events.
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.CreateOrder), OnCreateOrder);
         GameEventSystem.GetInstance().UnsubscribeFromEvent<Order>(nameof(GameEventName.AcceptOrder), OnAcceptOrder);
     }
